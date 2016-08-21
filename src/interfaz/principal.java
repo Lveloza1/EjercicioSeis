@@ -5,6 +5,8 @@
  */
 package interfaz;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USUARIO
@@ -38,7 +40,7 @@ public class principal extends javax.swing.JFrame {
         txtTamaño = new javax.swing.JTextField();
         txtPalabras = new javax.swing.JTextField();
         cmdCalcular = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        cmdBorrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -65,20 +67,130 @@ public class principal extends javax.swing.JFrame {
 
         txtTotal.setEditable(false);
         getContentPane().add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 90, 30));
+
+        txtColores.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtColoresKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtColores, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 90, 30));
+
+        txtTamaño.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTamañoKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtTamaño, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 90, 30));
+
+        txtPalabras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPalabrasKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtPalabras, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 90, 30));
 
         cmdCalcular.setText("Calcular");
+        cmdCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdCalcularActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmdCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 323, 80, 30));
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
-        jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 8)); // NOI18N
-        jButton1.setText("X");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 40, 20));
+        cmdBorrar.setBackground(new java.awt.Color(255, 51, 51));
+        cmdBorrar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 8)); // NOI18N
+        cmdBorrar.setText("X");
+        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdBorrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmdBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 40, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmdCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCalcularActionPerformed
+    float tamaño, colores, palabras, total;
+    String sumatoria;
+    
+    if(txtPalabras.getText().trim().isEmpty()){
+         JOptionPane.showMessageDialog(this, "Digite el número de palabras","error", JOptionPane.ERROR_MESSAGE);
+         txtPalabras.requestFocusInWindow();
+         txtPalabras.selectAll();
+
+       }
+
+     else if(txtTamaño.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this, "Digite el tamaño en cm","error", JOptionPane.ERROR_MESSAGE);  
+        txtTamaño.requestFocusInWindow();
+        txtTamaño.selectAll();
+
+     }  
+     else if(txtColores.getText().trim().isEmpty()){
+        JOptionPane.showMessageDialog(this, "Digite la número de colores","error", JOptionPane.ERROR_MESSAGE);  
+        txtColores.requestFocusInWindow(); 
+         txtColores.selectAll();    
+
+     }
+     else{
+         
+     palabras=Integer.parseInt(txtPalabras.getText());
+     tamaño=Float.parseFloat(txtTamaño.getText());
+     colores=Integer.parseInt(txtColores.getText());
+         
+    total=((palabras*20000)+(tamaño*15000)+(colores*25000));   
+    
+    sumatoria=String.valueOf(total);
+    txtTotal.setText(sumatoria);
+         
+     }
+  
+    }//GEN-LAST:event_cmdCalcularActionPerformed
+
+    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+ 
+     txtPalabras.setText("");
+     txtTamaño.setText("");
+     txtColores.setText("");
+     txtTotal.setText("");;
+     txtPalabras.requestFocusInWindow();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdBorrarActionPerformed
+
+    private void txtPalabrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPalabrasKeyTyped
+char c=evt.getKeyChar(); 
+       
+          if(!Character.isDigit(c)) { 
+              getToolkit().beep();    
+              evt.consume(); 
+          } 
+        
+    }//GEN-LAST:event_txtPalabrasKeyTyped
+
+    private void txtColoresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColoresKeyTyped
+char c=evt.getKeyChar(); 
+       
+          if(!Character.isDigit(c)) { 
+              getToolkit().beep();    
+              evt.consume(); 
+          } 
+        
+    }//GEN-LAST:event_txtColoresKeyTyped
+
+    private void txtTamañoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTamañoKeyTyped
+char c=evt.getKeyChar(); 
+       
+          if(!Character.isDigit(c)&&evt.getKeyChar()!='.') {   
+            getToolkit().beep();    
+              evt.consume();   
+          }
+    if(evt.getKeyChar()=='.'&&txtTamaño.getText().contains(".")){
+        evt.consume();
+    } 
+        
+    }//GEN-LAST:event_txtTamañoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -116,8 +228,8 @@ public class principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdBorrar;
     private javax.swing.JButton cmdCalcular;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
